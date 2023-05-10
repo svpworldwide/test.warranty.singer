@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #d9534f;
+        }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: red;
+            }
+    </style>
+</head>
+<body>
+    @using System.Globalization
+    @using System.Threading
+    <nav class="navbar navbar-expand navbar-light bg-svp" style="border-bottom:1px solid #d9534f">
+        <a href="http://www.svpworldwide.com/">
+            <img src="~/Images/logo.png" />
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>        
+        <div class="collapse navbar-collapse">
+         
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" style="padding-top:14px;padding-left:10px;">@Html.ActionLink("Upload Manager", "Create", "Manuals")</li>
+                @*<li class="nav-item">@Html.ActionLink("Manuals", "Index", "Manuals", new { area = "" }, new { @class = "svp-menu-link" })</li>*@
+
+                @*<li>@Html.ActionLink("Bulk Upload Manuals", "BulkUpload", "Manuals")</li>
+            <li>@Html.ActionLink("Language", "Index", "Languages")</li>
+            <li>@Html.ActionLink("Model Types", "Index", "Modeltypes")</li>*@
+            
+                
+            </ul>
+        </div>
+        <img src="~/Images/Logos.png" />
+        
+    </nav>
+    
+            <ul class="nav justify-content-center">
+                @{
+                    CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+
+                    <li class="nav-link" style="padding-top:4px;padding-left:10px;"><a href="/Home/ChangeCurrentCulture/1">English</a></li>
+
+                    <li class="nav-link" style="padding-top:4px;padding-left:10px;"><a href="/Home/ChangeCurrentCulture/2">French</a></li>
+
+                    <li class="nav-link" style="padding-top:4px;padding-left:10px;"><a href="/Home/ChangeCurrentCulture/8">Italian</a></li>
+
+                    <li class="nav-link" style="padding-top:4px;padding-left:10px;"><a href="/Home/ChangeCurrentCulture/9">Dutch</a></li>
+
+                    <li class="nav-link" style="padding-top:4px;padding-left:10px;"><a href="/Home/ChangeCurrentCulture/11">Swedish</a></li>
+                }
+            </ul>
+        
+   
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")    
+    @RenderSection("scripts", required: false)
+    <script>
+        function setPDF(id, name) {
+            //alert(id + " " + name);
+            var machine = name.split(" - ")[0];
+            //alert(machine);
+            
+            var xhr = new XMLHttpRequest();
+            var pdfLink = "Manuals/RetrievePDF/" + id;
+            xhr.open("GET", pdfLink);
+            xhr.responseType = "blob";
+            xhr.onload = response;
+            xhr.send();
+            function response(e) {
+                var urlCreator = window.URL || window.webkitURL;
+                //var imageUrl = urlCreator.createObjectURL(this.response);
+                //alert('~/Images/' + machine + '.jpg');
+                //$('#manualPDF').attr('data', imageUrl);
+                $('#machineImage').css("display", "block");
+                $('#machineDetails').text("interesting snippet about " + machine + " goes here");
+                $('#machineImage').attr("src", "Images/" + machine + ".jpg");
+                
+                //document.querySelector('#machineImage').src = "~/Images/generic-machine.gif";
+            }
+            $('#pdfLink').attr('href', pdfLink).text('Open '+name+' in a New Window');
+        }
+       
+        $(".machines")
+            .click(function () {                
+                var str = $(this).text()
+                var id = $(this).attr("data-value")
+                $("#modeltypeId").val(id);
+                //var selectid = { "id": id }
+                $("#manualsForm").submit();
+                //$.post("/Manuals/BuildList", selectid, function (machineHtml) {
+                //    alert(machineHtml);
+                //    $("#machinesHtml").html(machineHtml);
+                //})
+                //$.ajax({
+                //        url: "/Manuals/Index",
+                //        data: JSON.stringify(selectid),
+                //        type: 'POST',
+                //        contentType: 'application/json; charset=utf-8',
+                //        success: function (data) {
+                //            // Variable data contains the data you get from the action method
+                //            //alert(data);
+                //            $("body").html(data);
+                //        }
+                //    });
+            });
+
+            //jQuery(document).ready(function () {
+            //    $("#modeltypeselector").change(function () {
+            //        var id = $(this).find(":selected").val()
+            //        var selectid = { "id": id }
+            //        $.ajax({
+            //            url: "/Manuals/Index",
+            //            data: JSON.stringify(selectid),
+            //            type: 'POST',
+            //            contentType: 'application/json; charset=utf-8',
+            //            success: function (data) {
+            //                // Variable data contains the data you get from the action method
+            //                alert(data);
+            //            }
+            //        });
+            //    });
+            //});
+
+        </script>
+</body>
+</html>

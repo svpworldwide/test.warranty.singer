@@ -1,0 +1,317 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 20px;    
+}
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ec174f;
+    
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #888888;
+    padding-top:10px;
+}
+#modelList {
+   list-style:none;
+}
+#textFilter {
+    width:95%;
+    /*margin-left:5px;*/
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.container {
+    padding-top:0px;
+    /*margin-left:25px;
+    margin-right:25px;*/
+
+}
+.container.upload_instructions {
+    font-size:15px;
+}
+#previews {
+    padding: 5px;
+    color: darkred;
+    border: 2px dashed red;    
+    margin-bottom:3px;
+}
+#previewFiles {
+    padding-left: 5px;
+    margin-bottom: 3px;
+    background: #f2e6e6;
+}
+.dropdown-menu {
+    height:200px;
+    overflow:scroll;
+}
+    .dropdown-menu .nav-link {
+        display:block;
+        border:1px dotted red;
+    }
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+a.svp-menu-link, a.svp-menu-link:hover, a.svp-menu-link:focus {
+    color: #ec174f;
+}
+a {
+    color: #ec174f;
+    text-decoration: none;
+}
+a:hover, a:focus {
+    color: #ec174f;
+    text-decoration: underline;
+}
+
+.bg-svp {
+    background-color: #fff;
+    color: #ec174f;
+}
+
+a.bg-svp:hover,
+a.bg-svp:focus {
+    background-color:#f29eab;
+}
+.alert-svp {
+    color: #ec174f;
+    background-color: #fff;
+    border-color: #ec174f;
+}
+
+    .alert-svp hr {
+        border-top-color: #e4b9c0;
+    }
+
+    .alert-svp .alert-link {
+        color:#843534;
+    }
+
+
+.btn-svp {
+    color: #fff;
+    background-color: #ec174f;
+    border-color: #dc3545;
+}
+
+    .btn-svp:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+    .btn-svp:focus, .btn-svp.focus {
+        box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+    }
+
+    .btn-svp.disabled, .btn-svp:disabled {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-svp:not(:disabled):not(.disabled):active, .btn-svp:not(:disabled):not(.disabled).active,
+    .show > .btn-svp.dropdown-toggle {
+        color: #fff;
+        background-color: #bd2130;
+        border-color: #b21f2d;
+    }
+
+        .btn-svp:not(:disabled):not(.disabled):active:focus, .btn-svp:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-svp.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+        }
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.manual-detail {
+    padding-left: 10px;
+}
+.heading_top {
+    padding-left: 15px;
+    padding-top: 10px;
+}
+.svp-img-size
+{
+    width: 95%;
+}
+.row-models {
+    padding-top: 10px;
+    padding-left: 0px;
+}
+.col-models {
+    height: 550px;
+    overflow: scroll;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.machine-details {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+#pdfLink {
+    width: 100%;
+}
+#machineImage {
+    display: none;
+    width: 300px;
+}
+.col-buttons {
+    padding-left: 2px;
+    padding-top: 2px;
+    text-decoration: underline;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #d9534f;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: red;
+    }
+/*.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+    .pagination > li {
+        display: inline;
+    }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #ec174f;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .pagination > li:first-child > a,
+        .pagination > li:first-child > span {
+            margin-left: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .pagination > li:last-child > a,
+        .pagination > li:last-child > span {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .pagination > li > a:hover,
+        .pagination > li > span:hover,
+        .pagination > li > a:focus,
+        .pagination > li > span:focus {
+            z-index: 2;
+            color: #ec174f;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #ec174f;
+        border-color: #ec174f;
+    }
+
+    .pagination > .disabled > span,
+    .pagination > .disabled > span:hover,
+    .pagination > .disabled > span:focus,
+    .pagination > .disabled > a,
+    .pagination > .disabled > a:hover,
+    .pagination > .disabled > a:focus {
+        color: #777;
+        cursor: not-allowed;
+        background-color: #fff;
+        border-color: #ddd;
+    }
+
+.pagination-lg > li > a,
+.pagination-lg > li > span {
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+}
+
+.pagination-lg > li:first-child > a,
+.pagination-lg > li:first-child > span {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.pagination-lg > li:last-child > a,
+.pagination-lg > li:last-child > span {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}*/
+.languageSelected, a.languageSelected:focus {
+    color: #fff;
+    background-color: #ec174f;
+}
+a.masterSelected, a.masterSelected:focus {
+    color: #fff;
+    background-color: #ec174f;
+}
+.nav-item > .nav-link {
+    color: #ec174f;
+    text-decoration: none;
+}
+.nav-item.languageSelected > .nav-link, .nav-item.languageSelected > .nav-link a:hover {
+    color: #fff;
+    text-decoration: none;
+}

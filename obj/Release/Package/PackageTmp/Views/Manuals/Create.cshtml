@@ -1,0 +1,80 @@
+﻿@model WebManuals.MainViewModel
+
+@{
+    ViewBag.Title = "Upload";
+}
+@{var listdata = ViewBag.Modeltypes as IEnumerable<WebManuals.Models.modeltypes>;}
+
+<div style="padding-top:5px;"><h4><u>Upload Manuals</u></h4></div>
+
+<div class="container" style="padding: 10px;">
+    <p>Only PDFs</p>
+    
+    <div class="row">
+        <div class="col-md-10 ">
+            @using (Html.BeginForm("Create", "Manuals", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    PDF Manuals: <input type="file" name="files" id="Manualid" class="ms-btn-default inputreceipt" data-multiple-caption="{count} files selected" multiple />
+                    Machine Images: <input type="file" name="imagefiles" id="Imageid" class="ms-btn-default inputreceipt" data-multiple-caption="{count} files selected" multiple />
+                </div>
+                @ViewBag.ImageUploadStatus
+            </div>
+                <div class="form-horizontal">
+                   
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Manuals.manual_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Manuals.manual_name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Manuals.manual_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Manuals.manual_languageid, "manual_languageid", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            
+                            //@Html.DropDownList("manual_languageid", Model.Languages.ToList<>, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Manuals.manual_languageid, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UploadManuals.manual_modeltypeid, "manual_modeltypeid", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*@Html.DropDownList("modeltypeselector", new SelectList(listdata, "modeltypeid", "modeltype_name"), "Select Model Type", new { @class = "form-control", onchange = "this.form.submit()" })*@
+                            @Html.DropDownList("modeltypeselector", new SelectList(listdata, "modeltypeid", "modeltype_name"), "Select Model Type", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.UploadManuals.manual_modeltypeid, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Manuals.manual_url, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Manuals.manual_url, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Manuals.manual_url, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@                   
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">                            
+                            <div class="btn-group" role="group" aria-label="Second group">
+                                <button type="submit" name="single" class="ms-btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>       
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webmanualsModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="languages">
+    <Key>
+      <PropertyRef Name="languageid" />
+    </Key>
+    <Property Name="languageid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="language_name" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="manuals">
+    <Key>
+      <PropertyRef Name="manualid" />
+    </Key>
+    <Property Name="manualid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="manual_name" Type="varchar" MaxLength="128" />
+    <Property Name="manual_languageid" Type="int" />
+    <Property Name="manual_modeltypeid" Type="int" />
+    <Property Name="manual_url" Type="varchar" MaxLength="45" />
+    <Property Name="manual_content" Type="longblob" />
+    <Property Name="manual_master_model" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="modeltypes">
+    <Key>
+      <PropertyRef Name="modeltypeid" />
+    </Key>
+    <Property Name="modeltypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modeltype_name" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <Association Name="manual_languageid">
+    <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="manual_modeltypeid">
+    <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="webmanualsModelStoreContainer">
+    <EntitySet Name="languages" EntityType="Self.languages" Schema="webmanuals" store:Type="Tables" />
+    <EntitySet Name="manuals" EntityType="Self.manuals" Schema="webmanuals" store:Type="Tables" />
+    <EntitySet Name="modeltypes" EntityType="Self.modeltypes" Schema="webmanuals" store:Type="Tables" />
+    <AssociationSet Name="manual_languageid" Association="Self.manual_languageid">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+    <AssociationSet Name="manual_modeltypeid" Association="Self.manual_modeltypeid">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

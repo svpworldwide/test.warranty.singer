@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="webmanualsModelStoreContainer" CdmEntityContainer="webmanualsEntities">
+    <EntitySetMapping Name="languages">
+      <EntityTypeMapping TypeName="webmanualsModel.languages">
+        <MappingFragment StoreEntitySet="languages">
+          <ScalarProperty Name="languageid" ColumnName="languageid" />
+          <ScalarProperty Name="language_name" ColumnName="language_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manuals">
+      <EntityTypeMapping TypeName="webmanualsModel.manuals">
+        <MappingFragment StoreEntitySet="manuals">
+          <ScalarProperty Name="manual_master_model" ColumnName="manual_master_model" />
+          <ScalarProperty Name="manualid" ColumnName="manualid" />
+          <ScalarProperty Name="manual_name" ColumnName="manual_name" />
+          <ScalarProperty Name="manual_languageid" ColumnName="manual_languageid" />
+          <ScalarProperty Name="manual_modeltypeid" ColumnName="manual_modeltypeid" />
+          <ScalarProperty Name="manual_url" ColumnName="manual_url" />
+          <ScalarProperty Name="manual_content" ColumnName="manual_content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modeltypes">
+      <EntityTypeMapping TypeName="webmanualsModel.modeltypes">
+        <MappingFragment StoreEntitySet="modeltypes">
+          <ScalarProperty Name="modeltypeid" ColumnName="modeltypeid" />
+          <ScalarProperty Name="modeltype_name" ColumnName="modeltype_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

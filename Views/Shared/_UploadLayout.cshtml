@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    <!--DropZone CSS-->
+    @Styles.Render("~/Content/dropzonecss")
+
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    @using Westwind.Globalization    
+</head>
+<body>
+    @using System.Globalization
+    @using System.Threading
+    @using WebManuals.Helper;
+    <nav class="navbar navbar-expand navbar-light bg-svp" style="border-bottom:1px solid #d9534f">
+        <a href="http://www.singer.com/">
+            <img src="~/Images/logo.svg" />
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+
+            <ul class="navbar-nav ml-5"></ul>
+        </div>
+        <div class="dropdown">
+            Admin
+
+
+            @{
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                CultureInfo currentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+            }
+
+        </div>
+
+    </nav>
+    @Html.Partial("_LoginPartial")
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p><div id="array"></div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+
+
+    <!--DropZone JS-->
+    @Scripts.Render("~/bundles/dropzonejs") <!--DropZone JS-->
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/combine.js"></script>
+    @RenderSection("scripts", required: false)
+<script>
+
+        $(document).ready(function () {
+            $('#manage').DataTable();
+            if ($('.machines').hasClass('masterSelected')) {
+                //need to scroll
+                $('html, body').animate({
+                    scrollTop: $("#models").offset().top
+                }, 1000);
+            }
+
+        });
+
+        function filter(element) {
+            var value = $(element).val();
+
+            $("#modelList > li").each(function () {
+                if ($(this).text().toLowerCase().search(value) > -1) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+            });
+        }
+        function setPDF(id, name, master) {
+
+            var machine = name.split(" - ")[0];
+            var xhr = new XMLHttpRequest();
+            var pdfLink = "Manuals/RetrievePDF/" + id;
+            var opentext = "@DbRes.T("ManualsOpen", "Resource")";
+            xhr.open("GET", pdfLink);
+            xhr.responseType = "blob";
+            xhr.onload = response;
+            xhr.send();
+            //need to scroll
+            $('html, body').animate({
+                scrollTop: $("#models").offset().top
+            }, 1000);
+            function response(e) {
+                $('#machineImage').css("display", "block");
+                $('#machineDetails').text(machine);
+                $('#machineImage').attr("src", "Images/" + master + ".jpg");
+
+            }
+            $('#pdfLink').attr('href', pdfLink).text(name + ' - ' + opentext );
+            $('#pdfImageLink').attr('href', pdfLink);
+        }
+
+        $(".machines")
+            .click(function () {
+                var str = $(this).text()
+                var id = $(this).attr("data-value");
+                $("#modeltypeId").val(id);
+                $("#manualsForm").submit();
+
+            });
+
+    //Need to tweak for realistic number of combinations of languages and model types    
+    //var arCombined = $("#arCombined").data("value"); //This is live data but the array generator can't handle 25 x 7 combinations
+    //arCombined = "["+arCombined.replace(/,(\s+)?$/, ']');
+    //["EN","FR","CZ","DA","DE","ES","FI","IT","NL","NO","SE","PT","RU","TR","SL","HU","PL","AR","ZH","ID","KO","TH","EL","HE","VI","Mechanical","Computerized","Heavy Duty","Embroidery","Quilting","Overlock","Industrial Products","Irons","Notions"]
+    
+    //var subsets = combine(["EN", "FR", "ES", "Mechanical", "Computerized", "Embroidery"], 2); //This is sample data to use to check for dupes during uploading
+    //var subsets = combine(arCombined, 2); //This is live data but the array generator can't handle 25 x 7 combinations
+    
+    //alert(subsets.length + " " + subsets);
+    //for (var x = 0; x < subsets.length; x++){        
+    //$("#array").append("[" + subsets[x] + "]");
+    //}
+   
+</script>
+</body>
+</html>

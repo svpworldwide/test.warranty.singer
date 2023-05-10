@@ -1,0 +1,69 @@
+﻿@model WebManuals.Models.manuals
+@{
+    Layout = "~/Views/Shared/_UploadLayout.cshtml";
+}
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>manuals</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.manual_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.manual_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_url)
+        </dd>
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.manual_content)
+            </dt>*@
+
+        @*<dd>
+                @Html.DisplayFor(model => model.manual_content)
+            </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.manual_master_model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_master_model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.languages.language_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.languages.language_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modeltypes.modeltype_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modeltypes.modeltype_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.manualid }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.manualid }) |
+    @Html.ActionLink("Back to Upload", "Create")
+</p>

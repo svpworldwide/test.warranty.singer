@@ -1,0 +1,247 @@
+﻿@model WebManuals.MainViewModel
+@{
+    Layout = "~/Views/Shared/_UploadLayout.cshtml";
+}
+@{
+    ViewBag.Title = "Manage Manuals";
+}
+@{
+    var listdata = ViewBag.Modeltypes as IEnumerable<WebManuals.Models.modeltypes>;
+
+}
+
+@ViewBag.ip
+@*<h4>Upload Manuals</h4>*@
+@*<div class="container upload_instructions" style="padding: 2px;">
+
+
+
+
+    @using (Html.BeginForm("Create", "Manuals", FormMethod.Post, new { @name = "myDropzone", id = "myDropzone", enctype = "multipart/form-data" }))
+    {
+        //Todo: list of supported models and languages
+        <div style="margin-left:40px">
+            <div>
+                <div id="previews" class="dz-default dz-message box__input dropzone">
+                    <div style="text-align:center">
+                        <i class="fa fa-cloud-upload" style="font-size:23px;position:relative;top:4px;"></i> <span style="margin-left:20px">Drop files to upload</span>
+                    </div>
+                </div>
+                <div id="previewFiles"></div>
+            </div>
+            <div>
+                <input type="submit" id="Submit" name="Submit" class="btn btn-danger m-t-5" value="Upload" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <ol>
+                    <li style="list-style:none;">
+                        <p>
+                            <b>Prior to Step 1, browse to the folder containing the manuals you wish to upload.</b><br />
+                            Verify that the file name meets the required format: [model#] - [country code].[extension] <br />
+                            For example Model 1304 in Swedish would be: 1304 - SE.pdf<br />
+                        </p>
+                    </li>
+                    <li value="1">
+                        <p>
+                            Select the PDF Manuals: &nbsp;
+                            <input type="file" name="uploadfiles" id="Manualid" class="ms-btn-default" data-multiple-caption="{count} files selected" multiple /><br />
+                            Only PDFs are allowed<br />
+                        </p>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.DropDownList("modeltypeselector", new SelectList(listdata, "modeltypeid", "modeltype_name"), "Select Model Type", new { @class = "form-control alert-svp" })
+                                @Html.ValidationMessageFor(model => model.UploadManuals.manual_modeltypeid, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </li>
+
+                    <li style="list-style:none;">
+                            <p>
+                                <b> If you have a machine Image you can upload it, otherwise skip step 3.</b>
+
+                            </p>
+                        </li>
+                </ol>
+            </div>
+            <div class="col-6">
+                <ol>
+                    <li style="list-style:none;">
+                        <p>
+
+                            <b>Prior to Step 3, browse to the folder containing the images you wish to upload.</b><br />
+                            Verify that the image file name meets the required format: [model#].[extension] <br />For example a png of Model 1304 would be 1304.png:<br />
+                        </p>
+                    </li>
+                    <li value="3">
+                        Optional - Machine Images: &nbsp;<input type="file" name="imagefiles" id="Imageid" class="ms-btn-default" data-multiple-caption="{count} files selected" multiple />
+                        <p>Only .png .gif .jpg</p>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="btn-group" role="group" aria-label="Second group">
+                                    <button type="submit" name="single" class="ms-btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Upload</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                <ul style="list-style:none;">
+                    <li><span class="text-danger">@Model.Status</span></li>
+                    <li><span class="text-success">@ViewBag.FileUploadStatus </span></li>
+                    <li><span class="text-success">@ViewBag.ImageUploadStatus </span></li>
+                </ul>
+            </div>
+        </div>
+    }
+
+
+</div>*@
+
+
+<table id="manage" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            @*<th>Master Model</th>
+            <th>Model Type ID</th>
+            <th>Language ID</th>*@
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var manual in Model.ManageManuals)
+        {
+        <tr>
+            <td> @manual.manualid </td>
+            <td> @manual.manual_name </td>
+            @*<td>@manual.manual_master_model</td>
+            <td>@manual.manual_modeltypeid - @manual.manual_modeltype_name</td>
+            <td>@manual.manual_languageid - @manual.manual_language_name</td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = manual.manualid })
+            </td>
+            <td>
+               
+                @Html.ActionLink("Update", "Update", new { id = manual.manualid }) 
+            </td>
+            <td>
+                @*@Html.ActionLink("Details", "Details", new { id = manual.manualid }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = manual.manualid }) 
+
+                @*@Html.ActionLink("Edit", "Edit", "Manuals", new { area = "" }, null)*@
+            </td>
+            <td>
+                @Html.ActionLink("View manual", "RetrievePDF", "Manuals", new { id = manual.manualid }, new { @target = "_blank" })
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@*<ul>
+        @foreach (var manual in Model.ManageManuals)
+        {
+            <li>Name: @manual.manual_name Master Model: @manual.manual_master_model Modeltype Id: @manual.manual_modeltypeid</li>
+        }
+    </ul>*@
+@*<div>
+    @Html.ActionLink("Manuals Home", "Index", "Manuals", new { area = "" }, null)
+</div>*@
+ @*@{string makearray = ""; }
+<input type="hidden" id="arCombined" data-value="@foreach (string o in @ViewBag.output){makearray += '"'+o.ToString()+'"'+',';}@makearray.ToString()" />*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            Dropzone.autoDiscover = false;
+            $('#myDropzone').dropzone({
+                //parameter name value
+                paramName: "files",
+                //clickable div id
+                clickable: '#previews',
+                //preview files container Id
+                previewsContainer: "#previewFiles",
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 100,
+                maxFiles: 100,
+                //  url:"/", // url here to save file
+                maxFilesize: 100,//max file size in MB,
+                addRemoveLinks: true,
+                dictResponseError: 'Server not Configured',
+                acceptedFiles: ".pdf",// use this to restrict file type
+                init: function () {
+                    var self = this;
+                    // config
+                    self.options.addRemoveLinks = true;
+                    self.options.dictRemoveFile = "Delete";
+                    //New file added
+                    self.on("addedfile", function (file) {
+                        console.log('new file added ', file);
+                        $('.dz-success-mark').hide();
+                        $('.dz-error-mark').hide();
+                    });
+                    // Send file starts
+                    self.on("sending", function (file) {
+                        console.log('upload started', file);
+                        $('.meter').show();
+                    });
+
+                    // File upload Progress
+                    self.on("totaluploadprogress", function (progress) {
+                        console.log("progress ", progress);
+                        $('.roller').width(progress + '%');
+                    });
+
+                    self.on("queuecomplete", function (progress) {
+                        $('.meter').delay(999).slideUp(999);
+                    });
+
+                    // On removing file
+                    self.on("removedfile", function (file) {
+                        console.log(file);
+                    });
+
+                    $('#Submit').on("click", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Validate form here if needed
+
+                        if (self.getQueuedFiles().length > 0) {
+                            self.processQueue();
+
+
+                        } else {
+                            self.uploadFiles([]);
+                            $('#myDropzone').submit();
+                        }
+
+                    });
+
+
+
+                    self.on("successmultiple", function (files, response) {
+                        // Gets triggered when the files have successfully been sent.
+                        // Redirect user or notify of success.
+
+                    });
+                }
+            });
+
+
+        })
+
+    </script>
+}

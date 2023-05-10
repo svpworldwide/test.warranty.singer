@@ -1,0 +1,75 @@
+﻿@model WebManuals.Models.manuals
+@{
+    Layout = "~/Views/Shared/_UploadLayout.cshtml";
+}
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>View</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>manuals</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.manual_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_name)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.manual_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_url)
+        </dd>*@
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.manual_content)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.manual_content)
+            </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.manual_master_model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manual_master_model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.languages.language_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.languages.language_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modeltypes.modeltype_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modeltypes.modeltype_name)
+        </dd>*@
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            @*@Html.ActionLink("Back to Upload", "Create")*@
+        </div>
+    }
+</div>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webmanualsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="languages">
+    <Key>
+      <PropertyRef Name="languageid" />
+    </Key>
+    <Property Name="languageid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="language_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manuals" Relationship="Self.manual_languageid" FromRole="languages" ToRole="manuals" />
+  </EntityType>
+  <EntityType Name="manuals">
+    <Key>
+      <PropertyRef Name="manualid" />
+    </Key>
+    <Property Name="manualid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="manual_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="manual_languageid" Type="Int32" />
+    <Property Name="manual_modeltypeid" Type="Int32" />
+    <Property Name="manual_url" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="manual_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="languages" Relationship="Self.manual_languageid" FromRole="manuals" ToRole="languages" />
+    <NavigationProperty Name="modeltypes" Relationship="Self.manual_modeltypeid" FromRole="manuals" ToRole="modeltypes" />
+    <Property Name="manual_master_model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="modeltypes">
+    <Key>
+      <PropertyRef Name="modeltypeid" />
+    </Key>
+    <Property Name="modeltypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modeltype_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manuals" Relationship="Self.manual_modeltypeid" FromRole="modeltypes" ToRole="manuals" />
+  </EntityType>
+  <Association Name="manual_languageid">
+    <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="manual_modeltypeid">
+    <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="webmanualsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="languages" EntityType="Self.languages" />
+    <EntitySet Name="manuals" EntityType="Self.manuals" />
+    <EntitySet Name="modeltypes" EntityType="Self.modeltypes" />
+    <AssociationSet Name="manual_languageid" Association="Self.manual_languageid">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+    <AssociationSet Name="manual_modeltypeid" Association="Self.manual_modeltypeid">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

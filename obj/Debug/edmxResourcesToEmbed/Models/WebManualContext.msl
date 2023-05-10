@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="webmanualsModelStoreContainer" CdmEntityContainer="webmanualsEntities">
+    <EntitySetMapping Name="languages">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.languages)">
+        <MappingFragment StoreEntitySet="languages">
+          <ScalarProperty Name="languageid" ColumnName="languageid" />
+          <ScalarProperty Name="language_name" ColumnName="language_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manuals">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.manuals)">
+        <MappingFragment StoreEntitySet="manuals">
+          <ScalarProperty Name="manualid" ColumnName="manualid" />
+          <ScalarProperty Name="manual_name" ColumnName="manual_name" />
+          <ScalarProperty Name="manual_languageid" ColumnName="manual_languageid" />
+          <ScalarProperty Name="manual_modeltypeid" ColumnName="manual_modeltypeid" />
+          <ScalarProperty Name="manual_url" ColumnName="manual_url" />
+          <ScalarProperty Name="manual_content" ColumnName="manual_content" />
+          <ScalarProperty Name="manual_master_model" ColumnName="manual_master_model" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modeltypes">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.modeltypes)">
+        <MappingFragment StoreEntitySet="modeltypes">
+          <ScalarProperty Name="modeltypeid" ColumnName="modeltypeid" />
+          <ScalarProperty Name="modeltype_name" ColumnName="modeltype_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="webmanualsModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manual_groups">
+      <EntityTypeMapping TypeName="webmanualsModel.manual_groups">
+        <MappingFragment StoreEntitySet="manual_groups">
+          <ScalarProperty Name="manual_group_name" ColumnName="manual_group_name" />
+          <ScalarProperty Name="manualid" ColumnName="manualid" />
+          <ScalarProperty Name="modeltypeid" ColumnName="modeltypeid" />
+          <ScalarProperty Name="languageid" ColumnName="languageid" />
+          <ScalarProperty Name="manual_groupid" ColumnName="manual_groupid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="revisions">
+      <EntityTypeMapping TypeName="webmanualsModel.revisions">
+        <MappingFragment StoreEntitySet="revisions">
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="digitalid" ColumnName="digitalid" />
+          <ScalarProperty Name="manualid" ColumnName="manualid" />
+          <ScalarProperty Name="revision_date" ColumnName="revision_date" />
+          <ScalarProperty Name="revisionid" ColumnName="revisionid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ipinfo">
+      <EntityTypeMapping TypeName="webmanualsModel.ipinfo">
+        <MappingFragment StoreEntitySet="ipinfo">
+          <ScalarProperty Name="DateInserted" ColumnName="DateInserted" />
+          <ScalarProperty Name="longitude" ColumnName="longitude" />
+          <ScalarProperty Name="latitude" ColumnName="latitude" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="region_name" ColumnName="region_name" />
+          <ScalarProperty Name="region_code" ColumnName="region_code" />
+          <ScalarProperty Name="country_name" ColumnName="country_name" />
+          <ScalarProperty Name="country_code" ColumnName="country_code" />
+          <ScalarProperty Name="continent_name" ColumnName="continent_name" />
+          <ScalarProperty Name="continent_code" ColumnName="continent_code" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="ip" ColumnName="ip" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,191 @@
+@model MainViewModel
+
+
+@{
+    ViewBag.Title = "Singer Manuals";
+
+}
+@using System.Drawing.Imaging
+@using System.Threading
+@using Westwind.Globalization
+@using WebManuals.Properties
+@using System.Globalization
+<!--Todo: To enhance user experience replace Html.BeginForm with Ajax.BeginForm source article:https://www.c-sharpcorner.com/article/asp-net-mvc5-razor-ajax-form-control/-->
+@using (Html.BeginForm("Index", "Manuals", FormMethod.Post, new { id = "manualsForm" }))
+{
+    <div class="row heading_top">
+
+        <fieldset>
+            @*@ViewBag.country_code*@
+
+
+
+            <h2>@DbRes.T("ManualsDisplayHeader", "Resource")</h2>
+            <p>@DbRes.T("ManualsPageDesc", "Resource") @DbRes.T("ManualsPageDescTwo", "Resource")<!--add to localization--></p>
+
+        </fieldset>
+
+    </div>
+    <!--filter that narrows results as you type-->
+    <div class="row">
+        <div class="col-md-6 pl-6">
+
+            <div class="navbar navbar-expand navbar-light bg-svp input-group input-group-sm pl-0 mb-0">
+
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">@DbRes.T("ManualsFilter", "Resource")</span>
+                </div>
+                <input id="textFilter" type="text" style="text-transform: uppercase" class="form-control" onkeyup="filter(this)" />
+
+
+                <div class="dropdown input-group-append">
+                    @*@Request.UserHostAddress*@
+
+                    @{
+                        CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                        CultureInfo currentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+                    }
+
+                    <button type="button" class="btn btn-svp dropdown-toggle" data-toggle="dropdown">
+                        @currentUICulture.DisplayName
+                    </button>
+                    <!--1-English,2-French,3-Czech,4-Danish,5-German,6-Spanish,7-Finnish,8-Italian,9-Dutch,10-Norwegian,11-Swedish-->
+
+                    <div class="dropdown-menu ml-1">
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/18">Arabic</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/19">Chinese</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/3">Czech</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/4">Danish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/9">Dutch</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/1">English</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/7">Finnish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/2">French</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/5">German</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/23">Greek</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/24">Hebrew</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/16">Hungarian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/20">Indonesian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/8">Italian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/21">Korean</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/17">Polish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/12">Portuguese</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/10">Norwegian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/13">Russian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/6">Spanish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/11">Swedish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/15">Slovenian</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/26">Taiwanese</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/22">Thai</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/14">Turkish</a>
+                        <a class="nav-link" href="/Home/ChangeCurrentCulture/25">Vietnamese</a>
+
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="navbar-nav ml-0"></ul>
+                </div>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div> <div class="col-buttons">@Html.ActionLink(@DbRes.T("ManualsReset", "Resource"), "Index", "Manuals")</div>
+        </div>
+        <!--<div class="col-md-6 pl-6">-->
+        <!--Todo: move to css-->
+        <!--<a href="#" target="blank" id="pdfLink"></a>--><!--Todo: move to css-->
+        <!--<a href="#" target="blank" id="pdfImageLink" style="display:none;"><img id="machineImage" src="~/Images/generic-machine.gif" /></a>--><!--Todo: move to css-->
+        <!--<p><div id="machineDetails" style="display:none;"></div></p>
+        </div>-->
+    </div>
+    <input type="hidden" id="modeltypeId" name="modeltypeId" />
+    <hr />
+    <div class="row">
+        <div class="col-4">
+
+            <h5>@DbRes.T("ManualsSelectHeader", "Resource")</h5>
+            <small>@DbRes.T("ManualsSelectDesc", "Resource")@*Use the filter above to narrow selections*@</small><!--add to localization-->
+            <br /><a href="#" target="blank" id="pdfLink"></a><!--Todo: move to css-->
+
+        </div>
+        <div class="col-md-8 manual-detail">
+            <h5>@DbRes.T("ManualsPageHeader", "Resource")</h5>
+            <small>@DbRes.T("ManualsPageHeaderDesc", "Resource")@*Select a model type below to show manuals for that type*@</small><!--add to localization-->
+        </div>
+    </div>
+    <div class="row">
+        <div id="machinesHtml"></div>
+    </div>
+
+
+    <!--<div class="row">
+        <div class="col col-buttons">-->
+    <!--Todo: move to css-->
+    <!--@Html.ActionLink(@DbRes.T("ManualsReset", "Resource"), "Index", "Manuals")
+        </div>
+
+    </div>-->
+    <div class="row">
+        <div class="col">
+            <div id="models" class="row row-models">
+                <!--Todo: move to css-->
+                <div class="col-md-4 rounded col-models">
+
+                    @if (Model.MasterTypes != null)
+                    {
+
+                        <div class="row">
+                            <ul id="modelList">
+                                @foreach (var type in Model.MasterTypes)
+                                {
+                                    <li>
+                                        <a href="#" onclick="@(Html.Raw(String.Format("setPDF({0}, '{1}', '{2}')",
+                                                type.Manualid,
+                                                type.Manual_name,
+                                                type.Manual_master_model
+                                     )))">
+                                            @Html.Action("RetrieveMasterModel", new { id = type.Manualid })
+                                        </a>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                </div>
+                <!--<div class="col-md-6 pl-6 machine-details">-->
+                <!--Todo: move to css-->
+                <!--<a href="#" target="blank" id="pdfLink"></a><br />--><!--Todo: move to css-->
+                <!--<a href="#" target="blank" id="pdfImageLink" style="display:none;"><img id="machineImage" src="~/Images/generic-machine.gif" /></a>--><!--Todo: move to css-->
+                <!--<p><div id="machineDetails" style="display:none;"></div></p>
+                </div>-->
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "1") {<text> masterSelected</text> }" data-value="1"><img class="img-fluid svp-img-size" id="mechanicalImage" src="~/Images/Mechanical.jpg" /><p>@DbRes.T("ManualsTypeMechanical", "Resource")</p></a></div>
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "2") {<text> masterSelected</text> }" data-value="2"><img class="img-fluid svp-img-size" id="computerizedImage" src="~/Images/Computerized.jpg" /><p>@DbRes.T("ManualsTypeComputerized", "Resource")</p></a></div>
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "4") {<text> masterSelected</text> }" data-value="4"><img class="img-fluid svp-img-size" id="embroideryImage" src="~/Images/Embroidery.jpg" /><p>@DbRes.T("ManualsTypeEmbroidery", "Resource")</p></a></div>
+                        @*<div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "3") {<text> masterSelected</text> }" data-value="3"><img class="img-fluid svp-img-size" id="heavydutyImage" src="~/Images/Heavy_Duty.jpg" /><p>@DbRes.T("ManualsTypeHeavyDuty", "Resource")</p></a></div>*@<!--remove-->
+                    </div>
+                    <div class="row">
+                        @*<div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "5") {<text> masterSelected</text> }" data-value="5"><img class="img-fluid svp-img-size" id="quiltingImage" src="~/Images/Quilting.jpg" /><p>@DbRes.T("ManualsTypeQuilting", "Resource")</p></a></div>*@<!--remove-->
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "6") {<text> masterSelected</text> }" data-value="6"><img class="img-fluid svp-img-size" id="sergersImage" src="~/Images/Overlock.jpg" /><p>@DbRes.T("ManualsTypeSergers", "Resource")</p></a></div>
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "7") {<text> masterSelected</text> }" data-value="7"><img class="img-fluid svp-img-size" id="indusrialImage" src="~/Images/Industrial.jpg" /><p>@DbRes.T("ManualsTypeIndustrial", "Resource")</p></a></div>
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "8") {<text> masterSelected</text> }" data-value="8"><img class="img-fluid svp-img-size" id="ironsImage" src="~/Images/Irons.jpg" /><p>@DbRes.T("ManualsTypeIrons", "Resource")</p></a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "9") {<text> masterSelected</text> }" data-value="9"><img class="img-fluid svp-img-size" id="notionsImage" src="~/Images/Notions.jpg" /><p>@DbRes.T("ManualsTypeNotions", "Resource")</p></a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+                       
+
+
+                      
+}
+
+

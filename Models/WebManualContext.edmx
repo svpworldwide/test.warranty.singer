@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="webmanualsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ipinfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ip" Type="nchar" MaxLength="15" />
+          <Property Name="type" Type="nchar" MaxLength="4" />
+          <Property Name="continent_code" Type="nchar" MaxLength="2" />
+          <Property Name="continent_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="country_code" Type="nchar" MaxLength="2" />
+          <Property Name="country_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="region_code" Type="nchar" MaxLength="50" />
+          <Property Name="region_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="city" Type="nvarchar" MaxLength="100" />
+          <Property Name="latitude" Type="float" />
+          <Property Name="longitude" Type="float" />
+          <Property Name="DateInserted" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="languages">
+          <Key>
+            <PropertyRef Name="languageid" />
+          </Key>
+          <Property Name="languageid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="language_name" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="manual_groups">
+          <Key>
+            <PropertyRef Name="manual_groupid" />
+          </Key>
+          <Property Name="manual_groupid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="languageid" Type="int" />
+          <Property Name="modeltypeid" Type="int" />
+          <Property Name="manualid" Type="int" />
+          <Property Name="manual_group_name" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="manuals">
+          <Key>
+            <PropertyRef Name="manualid" />
+          </Key>
+          <Property Name="manualid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="manual_name" Type="varchar" MaxLength="128" />
+          <Property Name="manual_languageid" Type="int" />
+          <Property Name="manual_modeltypeid" Type="int" />
+          <Property Name="manual_url" Type="varchar" MaxLength="45" />
+          <Property Name="manual_content" Type="varbinary(max)" />
+          <Property Name="manual_master_model" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="modeltypes">
+          <Key>
+            <PropertyRef Name="modeltypeid" />
+          </Key>
+          <Property Name="modeltypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="modeltype_name" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'webmanuals.dbo.revisions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="revisions">
+          <Key>
+            <PropertyRef Name="revisionid" />
+          </Key>
+          <Property Name="revisionid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="revision_date" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="manualid" Type="int" />
+          <Property Name="digitalid" Type="int" />
+          <Property Name="active" Type="bit" />
+        </EntityType>
+        <Association Name="FK_manual_groups_languages">
+          <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+          <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="languageid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="languageid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_groups_manuals">
+          <End Role="manuals" Type="Self.manuals" Multiplicity="0..1" />
+          <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manuals">
+              <PropertyRef Name="manualid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="manualid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_groups_modeltypes">
+          <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+          <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modeltypes">
+              <PropertyRef Name="modeltypeid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="modeltypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_languageid">
+          <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+          <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="languageid" />
+            </Principal>
+            <Dependent Role="manuals">
+              <PropertyRef Name="manual_languageid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_modeltypeid">
+          <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+          <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modeltypes">
+              <PropertyRef Name="modeltypeid" />
+            </Principal>
+            <Dependent Role="manuals">
+              <PropertyRef Name="manual_modeltypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="webmanualsModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ipinfo" EntityType="Self.ipinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="languages" EntityType="Self.languages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manual_groups" EntityType="Self.manual_groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manuals" EntityType="Self.manuals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="modeltypes" EntityType="Self.modeltypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="revisions" EntityType="Self.revisions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [revisions].[revisionid] AS [revisionid], 
+    [revisions].[revision_date] AS [revision_date], 
+    [revisions].[manualid] AS [manualid], 
+    [revisions].[digitalid] AS [digitalid], 
+    [revisions].[active] AS [active]
+    FROM [dbo].[revisions] AS [revisions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_manual_groups_languages" Association="Self.FK_manual_groups_languages">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_groups_manuals" Association="Self.FK_manual_groups_manuals">
+            <End Role="manuals" EntitySet="manuals" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_groups_modeltypes" Association="Self.FK_manual_groups_modeltypes">
+            <End Role="modeltypes" EntitySet="modeltypes" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_languageid" Association="Self.FK_manual_languageid">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="manuals" EntitySet="manuals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_modeltypeid" Association="Self.FK_manual_modeltypeid">
+            <End Role="modeltypes" EntitySet="modeltypes" />
+            <End Role="manuals" EntitySet="manuals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="webmanualsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="languages">
+          <Key>
+            <PropertyRef Name="languageid" />
+          </Key>
+          <Property Name="languageid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="language_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="manuals" Relationship="Self.manual_languageid" FromRole="languages" ToRole="manuals" />
+          <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_languages" FromRole="languages" ToRole="manual_groups" />
+        </EntityType>
+        <EntityType Name="manuals">
+          <Key>
+            <PropertyRef Name="manualid" />
+          </Key>
+          <Property Name="manualid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="manual_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="manual_languageid" Type="Int32" />
+          <Property Name="manual_modeltypeid" Type="Int32" />
+          <Property Name="manual_url" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="manual_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="languages" Relationship="Self.manual_languageid" FromRole="manuals" ToRole="languages" />
+          <NavigationProperty Name="modeltypes" Relationship="Self.manual_modeltypeid" FromRole="manuals" ToRole="modeltypes" />
+          <Property Name="manual_master_model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_manuals" FromRole="manuals" ToRole="manual_groups" />
+        </EntityType>
+        <EntityType Name="modeltypes">
+          <Key>
+            <PropertyRef Name="modeltypeid" />
+          </Key>
+          <Property Name="modeltypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="modeltype_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="manuals" Relationship="Self.manual_modeltypeid" FromRole="modeltypes" ToRole="manuals" />
+          <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_modeltypes" FromRole="modeltypes" ToRole="manual_groups" />
+        </EntityType>
+        <Association Name="manual_languageid">
+          <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+          <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="languageid" />
+            </Principal>
+            <Dependent Role="manuals">
+              <PropertyRef Name="manual_languageid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="manual_modeltypeid">
+          <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+          <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modeltypes">
+              <PropertyRef Name="modeltypeid" />
+            </Principal>
+            <Dependent Role="manuals">
+              <PropertyRef Name="manual_modeltypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="webmanualsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="languages" EntityType="Self.languages" />
+          <EntitySet Name="manuals" EntityType="Self.manuals" />
+          <EntitySet Name="modeltypes" EntityType="Self.modeltypes" />
+          <AssociationSet Name="manual_languageid" Association="Self.manual_languageid">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="manuals" EntitySet="manuals" />
+          </AssociationSet>
+          <AssociationSet Name="manual_modeltypeid" Association="Self.manual_modeltypeid">
+            <End Role="modeltypes" EntitySet="modeltypes" />
+            <End Role="manuals" EntitySet="manuals" />
+          </AssociationSet>
+          <EntitySet Name="C__MigrationHistory" EntityType="webmanualsModel.C__MigrationHistory" />
+          <EntitySet Name="manual_groups" EntityType="webmanualsModel.manual_groups" />
+          <EntitySet Name="revisions" EntityType="webmanualsModel.revisions" />
+          <EntitySet Name="ipinfo" EntityType="webmanualsModel.ipinfo" />
+          <AssociationSet Name="FK_manual_groups_manuals" Association="webmanualsModel.FK_manual_groups_manuals">
+            <End Role="manuals" EntitySet="manuals" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_groups_languages" Association="webmanualsModel.FK_manual_groups_languages">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manual_groups_modeltypes" Association="webmanualsModel.FK_manual_groups_modeltypes">
+            <End Role="modeltypes" EntitySet="modeltypes" />
+            <End Role="manual_groups" EntitySet="manual_groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="manual_groups">
+          <Key>
+            <PropertyRef Name="manual_groupid" />
+          </Key>
+          <Property Name="manual_groupid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="languageid" Type="Int32" />
+          <Property Name="modeltypeid" Type="Int32" />
+          <Property Name="manualid" Type="Int32" />
+          <Property Name="manual_group_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="manuals" Relationship="webmanualsModel.FK_manual_groups_manuals" FromRole="manual_groups" ToRole="manuals" />
+          <NavigationProperty Name="languages" Relationship="webmanualsModel.FK_manual_groups_languages" FromRole="manual_groups" ToRole="languages" />
+          <NavigationProperty Name="modeltypes" Relationship="webmanualsModel.FK_manual_groups_modeltypes" FromRole="manual_groups" ToRole="modeltypes" />
+        </EntityType>
+        <EntityType Name="revisions">
+          <Key>
+            <PropertyRef Name="revisionid" />
+          </Key>
+          <Property Name="revisionid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="revision_date" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="manualid" Type="Int32" />
+          <Property Name="digitalid" Type="Int32" />
+          <Property Name="active" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ipinfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="continent_code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="continent_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="country_code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="country_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="region_code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="region_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="latitude" Type="Double" />
+          <Property Name="longitude" Type="Double" />
+          <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_manual_groups_manuals">
+          <End Type="webmanualsModel.manuals" Role="manuals" Multiplicity="0..1" />
+          <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manuals">
+              <PropertyRef Name="manualid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="manualid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_groups_languages">
+          <End Type="webmanualsModel.languages" Role="languages" Multiplicity="0..1" />
+          <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="languageid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="languageid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manual_groups_modeltypes">
+          <End Type="webmanualsModel.modeltypes" Role="modeltypes" Multiplicity="0..1" />
+          <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modeltypes">
+              <PropertyRef Name="modeltypeid" />
+            </Principal>
+            <Dependent Role="manual_groups">
+              <PropertyRef Name="modeltypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="webmanualsModelStoreContainer" CdmEntityContainer="webmanualsEntities">
+    <EntitySetMapping Name="languages">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.languages)">
+        <MappingFragment StoreEntitySet="languages">
+          <ScalarProperty Name="languageid" ColumnName="languageid" />
+          <ScalarProperty Name="language_name" ColumnName="language_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manuals">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.manuals)">
+        <MappingFragment StoreEntitySet="manuals">
+          <ScalarProperty Name="manualid" ColumnName="manualid" />
+          <ScalarProperty Name="manual_name" ColumnName="manual_name" />
+          <ScalarProperty Name="manual_languageid" ColumnName="manual_languageid" />
+          <ScalarProperty Name="manual_modeltypeid" ColumnName="manual_modeltypeid" />
+          <ScalarProperty Name="manual_url" ColumnName="manual_url" />
+          <ScalarProperty Name="manual_content" ColumnName="manual_content" />
+          <ScalarProperty Name="manual_master_model" ColumnName="manual_master_model" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modeltypes">
+      <EntityTypeMapping TypeName="IsTypeOf(webmanualsModel.modeltypes)">
+        <MappingFragment StoreEntitySet="modeltypes">
+          <ScalarProperty Name="modeltypeid" ColumnName="modeltypeid" />
+          <ScalarProperty Name="modeltype_name" ColumnName="modeltype_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="webmanualsModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="manual_groups">
+            <EntityTypeMapping TypeName="webmanualsModel.manual_groups">
+              <MappingFragment StoreEntitySet="manual_groups">
+                <ScalarProperty Name="manual_group_name" ColumnName="manual_group_name" />
+                <ScalarProperty Name="manualid" ColumnName="manualid" />
+                <ScalarProperty Name="modeltypeid" ColumnName="modeltypeid" />
+                <ScalarProperty Name="languageid" ColumnName="languageid" />
+                <ScalarProperty Name="manual_groupid" ColumnName="manual_groupid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="revisions">
+            <EntityTypeMapping TypeName="webmanualsModel.revisions">
+              <MappingFragment StoreEntitySet="revisions">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="digitalid" ColumnName="digitalid" />
+                <ScalarProperty Name="manualid" ColumnName="manualid" />
+                <ScalarProperty Name="revision_date" ColumnName="revision_date" />
+                <ScalarProperty Name="revisionid" ColumnName="revisionid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ipinfo">
+            <EntityTypeMapping TypeName="webmanualsModel.ipinfo">
+              <MappingFragment StoreEntitySet="ipinfo">
+                <ScalarProperty Name="DateInserted" ColumnName="DateInserted" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="region_name" ColumnName="region_name" />
+                <ScalarProperty Name="region_code" ColumnName="region_code" />
+                <ScalarProperty Name="country_name" ColumnName="country_name" />
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+                <ScalarProperty Name="continent_name" ColumnName="continent_name" />
+                <ScalarProperty Name="continent_code" ColumnName="continent_code" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

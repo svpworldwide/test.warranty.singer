@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="navbar-brand">SVP to Cloudinary Upload</span>
+                @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                @*<ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "HelpPage" }, null)</li>
+                    </ul>*@
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        @RenderSection("SPAViews", required: false)
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+    <script>
+        $("input").on("click", function () {
+            $("#log").html($("input:checked").val());
+            $("#selLan").text($("input:checked").val());
+            var log = "";
+            $(".tag").each(function (i) {
+
+                var curval = $(this).text();
+                var newval = curval + $("input:checked").val();
+
+                //alert(newval);
+                $(this).val(newval);
+                log += "  " + newval;
+            });
+            $("#search").text(log);
+            //<button class="btn-info tag" value="M1500">M1500</button>
+        });
+    </script>
+    <script type="text/javascript">
+        function getPDF(tag) {
+            $("#selModel").text(tag);
+            var url = "https://res.cloudinary.com/singer-sewing/image/list/" + tag + ".json";
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    r = response;
+                    var images = "";
+                    var results = "";
+                    $("#manuals").text(results);
+                    var cloudroot = "https://res.cloudinary.com/singer-sewing/";
+                    for (var i = 0; i < r.resources.length; i++) {
+                        //r.resources[i].tag
+                        //alert("pdf "+tag);
+                        cloudpath = cloudroot + r.resources[i].public_id + ".pdf";
+                        //$("#selFolder").append(JSON.stringify(r.resources)+"<br/>");
+                        results += "</br><a href='" + cloudpath + "' target='_blank'>" + r.resources[i].public_id + "</a>";
+
+
+                    }
+
+                    $("#manuals").append(results);
+                },
+                failure: function (response) {
+                    alert("failed");
+                },
+                error: function (response) {
+                    alert("error ");
+                }
+            });
+        }
+        $(".tag").click(function () {
+           //alert("clicked");
+            var tag = $(this).val();
+            $("#selModel").text(tag);
+           //var tag = $(this).data("value");
+            //alert(tag);
+            //var url = "https://res.cloudinary.com/singer-sewing/image/list/webmanual.json";
+            var url = "https://res.cloudinary.com/singer-sewing/image/list/" + tag + ".json";
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    r = response;
+                    var images = "";
+                    var results = "";                   
+                    $("#manuals").text(results);
+                    var cloudroot = "https://res.cloudinary.com/singer-sewing/";
+                    for (var i = 0; i < r.resources.length; i++) {
+                        
+                            //alert("pdf "+tag);
+                        cloudpath = cloudroot + r.resources[i].public_id + ".pdf";
+                        $("#selFolder").text(r.resources[i].public_id);
+                            results += "</br><a href='" + cloudpath + "' target='_blank'>" + r.resources[i].public_id + "</a>";
+                        
+
+                    }
+                   
+                    $("#manuals").append(results);
+                },
+                failure: function (response) {
+                    alert("failed");
+                },
+                error: function (response) {
+                    alert("error ");
+                }
+            });
+        })
+        $(document).ready(function () {
+            $(".dropdown-menu li a").click(function () {
+                var selText = $(this).text();
+                var dataVal = $(this).data('value');
+                $('#cloudname').val(selText);
+                $('#uploadpreset').val(dataVal);
+                $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+            });
+            var tag = "modeltypes";
+            //alert(tag);
+            //var url = "https://res.cloudinary.com/singer-sewing/image/list/webmanual.json";
+            var url = "https://res.cloudinary.com/singer-sewing/image/list/" + tag + ".json";
+            //https://res.cloudinary.com/singer-sewing/image/upload/v1602188338/test/webmanuals/1408_1409_-_FR.pdf
+            $.ajax({
+                type: "GET",
+                url: url,
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    r = response;
+                    var images = "";
+                    var results = "";
+                    $("#manuals_list").text(images);
+                    $("#manuals").text(results);
+                    var cloudroot = "https://res.cloudinary.com/singer-sewing/";
+                    for (var i = 0; i < r.resources.length; i++) {                        
+                            var lblModelType = r.resources[i].public_id;
+                            lblModelType = lblModelType.split("/")[2];
+                        cloudpath = cloudroot + r.resources[i].public_id + ".jpg";
+                        //$("#selFolder").text(cloudpath);
+                        images += "<div class='col-md-4'><a href='#' onclick=getPDF('" + lblModelType + "')><img src='" + cloudpath + "' class='img-thumbnail img-responsive'/>" + lblModelType + "</a></div>";                        
+                    }
+                    $("#grid").append(images);                   
+                },
+                failure: function (response) {
+                    alert("failed");
+                },
+                error: function (response) {
+                    alert("error ");
+                }
+            });
+
+
+            var url = "https://res.cloudinary.com/singer-sewing/image/list/webmanual.json";
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    r = response;
+                    var results = "";
+                    var cloudroot = "https://res.cloudinary.com/singer-sewing/";
+                    for (var i = 0; i < r.resources.length; i++) {
+                        cloudpath = cloudroot + r.resources[i].public_id + ".pdf";
+                        results += "</br><a href='" + cloudpath + "' target='_blank'>" + r.resources[i].public_id + "</a>";
+                    }
+                    $("#manuals").append(results);
+                },
+                failure: function (response) {
+                    alert("failed");
+                },
+                error: function (response) {
+                    alert("error ");
+                }
+            });
+        });
+
+        document.getElementById("upload_widget").addEventListener("click", function () {
+            if ($('#cloudname').val().toString() == "") {
+                alert('Please select a site to proceed.');
+            } else {
+                var myWidget = cloudinary.createUploadWidget(
+                    {
+                        cloudName: $('#cloudname').val().toString(),
+                        uploadPreset: $('#uploadpreset').val().toString(),
+                        folder: "test/webmanuals",
+                        showAdvancedOptions: true
+                    }, (error, result) => {
+                        if (!error && result && result.event === "success") {
+                            console.log('Done! Here is the image info: ', result.info);
+                        }
+                    }
+                )
+
+                myWidget.open();
+            }
+
+
+        }, false);
+        const myGallery2 = cloudinary.galleryWidget({
+            container: "#gallery-2",
+            cloudName: "singer-sewing",
+            mediaAssets: [
+                { tag: "M1500" },
+                { tag: "mechanical" }
+            ]
+        });
+
+        myGallery2.render();
+        //const myWidget = cloudinary.galleryWidget({
+        //    "container": "#modeltypes",
+        //    "cloudName": "singer-sewing",
+        //    "zoom": false,
+        //    "mediaAssets": [{
+        //        "tag": "modeltypes"
+        //        //    "mediaType": "image"
+        //        //}, {
+        //        //    "tag": "shoes_product_gallery_demo",
+        //        //    "mediaType": "video"
+        //        //}, {
+        //        //    "tag": "shoes_product_gallery_demo_spinset",
+        //        //    "mediaType": "spin"
+        //    }],
+        //    "displayProps": {
+        //        "mode": "expanded",
+        //        "columns": 3,
+        //        "spacing": 15
+        //    },
+        //    "aspectRatio": "16:9",
+        //    "transformation": {
+        //        "crop": "fill"
+        //    },
+        //    "bgColor": "transparent",
+        //    "carouselLocation": "left",
+        //    "carouselOffset": 10,
+        //    "navigation": "always",
+        //    "thumbnailProps": {
+        //        "mediaSymbolSize": 42,
+        //        "spacing": 20,
+        //        "width": 90,
+        //        "height": 90,
+        //        "navigationFloat": true,
+        //        "navigationShape": "square",
+        //        "navigationSize": 40,
+        //        "navigationColor": "#ffffff",
+        //        "selectedStyle": "border",
+        //        "selectedBorderPosition": "bottom",
+        //        "selectedBorderWidth": 4
+        //    },
+        //    "navigationButtonProps": {
+        //        "shape": "rectangle",
+        //        "iconColor": "#ffffff",
+        //        "color": "#000",
+        //        "size": 52,
+        //        "navigationPosition": "offset",
+        //        "navigationOffset": 12
+        //    },
+        //    "themeProps": {
+        //        "primary": "#000000",
+        //        "active": "#777777"
+        //    }
+        //});
+        //myWidget.render();
+
+    </script>
+    @*<script type="text/javascript">
+            const myGallery = cloudinary.galleryWidget({
+                container: "#manuals",
+                cloudName: "singer-sewing",
+                mediaAssets: [
+                    { tag: "webmanual" }, // by default mediaType: "image"
+                    { tag: "webmanual", mediaType: "pdf" }
+                    //{ tag: "electric_car_360_product_gallery_demo", mediaType: "spin" }
+                ]
+            });
+
+            //$.cloudinary.image("Test/webmanuals/M2400-DE.pdf")
+            myGallery.render();
+        </script>*@
+</body>
+</html>

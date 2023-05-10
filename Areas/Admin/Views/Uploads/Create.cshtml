@@ -1,0 +1,318 @@
+﻿@model WebManuals.MainViewModel
+@{
+    Layout = "~/Views/Shared/_UploadLayout.cshtml";
+}
+@{
+    ViewBag.Title = "Single Model Uploader";
+}
+@{
+    var modeltypelist = ViewBag.Modeltypes as IEnumerable<WebManuals.Models.modeltypes>;
+    var languagelist = ViewBag.Languages as IEnumerable<WebManuals.Models.languages>;
+    var manualgroups = ViewBag.ManualGroups as IEnumerable<WebManuals.Models.manual_groups>;
+
+}
+
+
+@*<h4>Upload Manuals</h4>*@
+<div class="container upload_instructions" style="padding: 2px;">
+    @*@using (Html.BeginForm("Create", "Uploads", FormMethod.Post, new { @name = "myDropzone", id = "myDropzone", enctype = "multipart/form-data" }))*@
+    @using (Html.BeginForm("Create", "Uploads", FormMethod.Post, new { @name = "myDropzone", id = "myDropzone", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-4">
+                <div class="card row  mb-1">
+                    <div class="card-body">
+                        <h4 class="card-title">Model Types</h4>
+                        <p class="card-text">
+                            @foreach (var modeltype in modeltypelist)
+                            {
+                                <div class="form-check m-1">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input modeltype" value=@modeltype.modeltypeid>@modeltype.modeltype_name
+                                    </label>
+                                </div>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="card row">
+                    <div class="card-body">
+                        <h4 class="card-title">Languages</h4>
+                        <p class="card-text">
+                            @foreach (var language in languagelist)
+                            {
+                                <div class="form-check-inline m-1">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input language" value=@language.languageid>@language.language_name
+                                    </label>
+                                </div>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <input id="selectedlanguages" name="languagesarray" type="hidden" />
+                    <input id="selectedmodeltypes" name="modeltypesarray" type="hidden" />
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card row  mb-1 ml-1">
+                    <div class="card-body">
+                        <h4 class="card-title">Single Model Upload <small class="text-muted">Use to add new manuals for the first time.</small></h4>
+                        <p class="card-text">
+                            <label for="group">Model Name</label>
+                            <input id="group" name="groupname" type="text" /> <small class="text-muted">This will be the displayed model name in the list on the home page.</small>
+                        </p>
+                        <p>
+                            <input type="file" name="uploadfiles" id="Manualid" class="btn-outline-danger" data-multiple-caption="{count} files selected" multiple />
+                        </p>
+                        <p>
+                           
+                            <button type="submit" id="btnupload" name="single" class="btn btn-outline-danger"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Upload</button>
+                        </p>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="card row  mb-1 ml-1">
+                    <div class="card-body">
+                        <h4 class="card-title">Additional Model <small class="text-muted">Use to assign models to existing manuals.</small></h4>
+                        <p class="card-text">
+                            <label for="group">Model Name</label>
+                            <input id="group" name="modelname" type="text" /> <small class="text-muted">This will be the displayed model name in the list on the home page.</small>
+                        </p>
+                       
+                        <p>
+                            Add to existing group's manual
+                            @Html.DropDownList("manualselector", new SelectList(Model.MasterTypes, "Manualid", "Manual_name"), "Select a Manual", new { @class = "form-control alert-svp" })
+                            @Html.ValidationMessageFor(model => model.UploadManuals.manualid, "", new { @class = "text-danger" })
+                        </p>
+                        <p>
+                          
+                            <button type="submit" id="btnupload2" name="multiple" class="btn btn-outline-danger"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Submit</button>
+                        </p>
+
+                    </div>
+                </div>
+                
+                <div class="card alert-danger row mb-1 ml-1" style="display:none" id="errorcard">
+                    <ul style="list-style:none;">
+                        <li><span class="text-danger">@Model.Status</span></li>
+                        <li><span class="text-danger" id="landanger"></span></li>
+                        <li><span class="text-danger" id="moddanger"></span></li>
+                        <li><span class="text-danger" id="filedanger"></span></li>
+                    </ul>
+                </div>
+                <div class="card alert-success row mb-1 ml-1" style="display:none" id="successcard">
+                    <ul style="list-style:none;">
+                        <li><span class="text-success">@ViewBag.FileUploadStatus </span></li>
+                        <li><span class="text-success" id="lansuccess"></span></li>
+                        <li><span class="text-success" id="modsuccess"></span></li>
+                    </ul>
+                </div>
+                <!---->
+            </div>
+        </div>
+        
+    }
+    
+    <div class="card row  mb-1 ml-1">
+        <div class="card-body">
+            <h4 class="card-title">Manual Groups</h4>
+            <p class="card-text">
+                <!--ordered list to make into an editable table-->
+                <ol>
+                    <li style="list-style:none;margin-top:20px">
+                        <table id="manage" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Manual Name</th>
+                                    <th>Model Group</th>
+                                    <th>Model Type ID</th>
+                                    <th>Language ID</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var manual in Model.ManageManuals)
+                                {
+                                <tr>
+                                    <td>@manual.manual_name </td>
+                                    <td>@manual.manual_group_name </td>
+                                    <td>@manual.manual_modeltypeid - @manual.manual_modeltype_name</td>
+                                    <td>@manual.manual_languageid - @manual.manual_language_name</td>
+                                    <td>
+
+                                        @Html.ActionLink("View manual", "RetrievePDF", "Manuals", new { id = manual.manualid }, new { @target = "_blank" })
+                                    </td>
+                                    <td>
+                                        @using (Html.BeginForm("DeleteFromManualGroups", "Uploads", new { id = manual.manual_groupid }, FormMethod.Post, new { onsubmit = "return confirm('Are you sure you wish to delete this reference?');" }))
+                                        {
+
+                                            @Html.HttpMethodOverride(HttpVerbs.Delete) <input type="submit" class="btn btn-outline-danger btn-sm" value="Delete" />
+
+                                        }
+
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </li>
+                </ol>
+
+
+            </p>
+        </div>
+    </div>
+    
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+        $(function () {
+            $('#btnupload').click(function (e) {   
+                var self = this;
+                e.preventDefault();
+                e.stopPropagation();
+                // Validate form here if needed
+                               
+                var val = [];
+                var val2 = [];
+                $('.language:checked').each(function (i) {                                                       
+                    val[i] = $(this).val();
+                });
+                $('.modeltype:checked').each(function (i) {
+                    val2[i] = $(this).val();
+                });
+                var err = document.getElementById("errorcard");
+                if (val.length == 0) {
+                    //alert(val.length);
+                    err.style.display = "block";  
+                    $("#landanger").empty();
+                    $("#landanger").append("You must select at least one language");
+                }
+                else {
+                    $("#selectedlanguages").val(val);
+                    $("#landanger").empty();
+                    err.style.display = "none";
+                }
+                if (val2.length == 0) {
+                    err.style.display = "block";
+                    $("#moddanger").empty();
+                    $("#moddanger").append("You must select at least one modeltype");
+                }
+                else {
+                    $("#selectedmodeltypes").val(val2);
+                    $("#moddanger").empty();
+                    err.style.display = "none";
+                }
+                if (document.getElementById("Manualid").files.length == 0) {
+                    err.style.display = "block";
+                    $("#filedanger").empty();
+                    $("#filedanger").append("You must select a file");
+                }
+                else {
+                    $("#filedanger").empty();
+                    
+                    if ($('#errorcard').children().length > 0) {
+                        //alert("errorcard is not empty");
+                        err.style.display = "block";
+                    }
+                    else {
+                        //alert("errorcard is empty");
+                        err.style.display = "none";
+                    }
+                    
+                }
+                
+                if (val.length > 0 && val2.length > 0 && document.getElementById("Manualid").files.length > 0)
+                {
+                    err.style.display = "none";
+                    //alert("uploading");
+                   
+                    $('#myDropzone').submit();
+
+                }
+                
+            });
+
+            $('#btnupload2').click(function (e) {
+                var self = this;
+                e.preventDefault();
+                e.stopPropagation();
+                // Validate form here if needed
+
+                var val = [];
+                var val2 = [];
+                $('.language:checked').each(function (i) {
+                    val[i] = $(this).val();
+                });
+                $('.modeltype:checked').each(function (i) {
+                    val2[i] = $(this).val();
+                });
+                var err = document.getElementById("errorcard");
+                if (val.length == 0) {
+                    //alert(val.length);
+                    err.style.display = "block";
+                    $("#landanger").empty();
+                    $("#landanger").append("You must select at least one language");
+                }
+                else {
+                    $("#selectedlanguages").val(val);
+                    $("#landanger").empty();
+                    err.style.display = "none";
+                }
+                if (val2.length == 0) {
+                    err.style.display = "block";
+                    $("#moddanger").empty();
+                    $("#moddanger").append("You must select at least one modeltype");
+                }
+                else {
+                    $("#selectedmodeltypes").val(val2);
+                    $("#moddanger").empty();
+                    err.style.display = "none";
+                }
+                
+                if (val.length > 0 && val2.length > 0) {
+                    err.style.display = "none";
+                    //alert("submitting");
+                  
+                    $('#myDropzone').submit();
+                }
+               
+
+            });
+        });
+       
+        $(document).ready(function () {
+            var err = document.getElementById("errorcard");
+            var success = document.getElementById("successcard");
+            if ($('#errorcard').children().length > 0) {
+                //alert("errorcard is not empty");
+                err.style.display = "block";
+            }
+            else {
+                //alert("errorcard is empty");
+                err.style.display = "none";
+            }
+            if ($('#successcard').children().length > 0) {
+                //alert("errorcard is not empty");
+                success.style.display = "block";
+            }
+            else {
+                //alert("errorcard is empty");
+                success.style.display = "none";
+            }
+           
+        })
+
+    </script>
+}

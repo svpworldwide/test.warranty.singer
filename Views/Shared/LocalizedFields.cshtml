@@ -1,0 +1,34 @@
+﻿@model WebManuals.Models.LocalizedManualDetails
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Localized Manual Details</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ManualsPageHeader)
+        </div>
+        @*<div class="editor-field">
+                @Html.EditorFor(model => model.ManualsPageHeader)
+                @Html.ValidationMessageFor(model => model.ManualsPageHeader)
+            </div>*@
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ManualsPageDesc)
+        </div>
+        @*<div class="editor-field">
+                @Html.EditorFor(model => model.ManualsPageDesc)
+                @Html.ValidationMessageFor(model => model.ManualsPageDesc)
+            </div>*@
+
+        @*<p>
+                <input type="submit" value="Create" />
+            </p>*@
+    </fieldset>
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

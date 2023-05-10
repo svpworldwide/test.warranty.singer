@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/images/SingerLogo.bmp" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <!--DropZone CSS-->
+    @Styles.Render("~/Content/dropzonecss")
+
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    @using Westwind.Globalization    
+</head>
+<body>
+    @using System.Globalization
+    @using System.Threading
+    @using WebManuals.Helper;
+    <nav class="navbar navbar-expand navbar-light bg-svp" style="border-bottom:1px solid #d9534f">
+        <a href="http://www.singer.com/">
+            <img src="~/Images/logo.svg" />
+        </a>
+        <!--<button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+
+            <ul class="navbar-nav ml-5"></ul>
+        </div>
+        <div class="dropdown">-->
+        @*@Request.UserHostAddress*@
+
+        <!--@{
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            CultureInfo currentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+        }
+
+        <button type="button" class="btn btn-svp dropdown-toggle" data-toggle="dropdown">
+            @currentUICulture.DisplayName
+        </button>-->
+        <!--1-English,2-French,3-Czech,4-Danish,5-German,6-Spanish,7-Finnish,8-Italian,9-Dutch,10-Norwegian,11-Swedish,12-Portuguese,13-Russian,14-Turkish,15-Slovenian,16-Hungarian,17-Polish,18-Arabic,
+            19-Chinese,20-Indonesian,21-Korean,22-Thai,23-Greek,24-Hebrew,25-Vietnamese-->
+        <!--<div class="dropdown-menu ml-4">
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/18">Arabic</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/19">Chinese</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/3">Czech</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/4">Danish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/9">Dutch</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/1">English</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/7">Finnish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/2">French</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/5">German</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/23">Greek</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/24">Hebrew</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/16">Hungarian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/20">Indonesian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/8">Italian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/21">Korean</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/17">Polish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/12">Portuguese</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/10">Norwegian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/13">Russian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/6">Spanish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/11">Swedish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/15">Slovenian</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/22">Thai</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/14">Turkish</a>
+                <a class="nav-link" href="/Home/ChangeCurrentCulture/25">Vietnamese</a>
+
+            </div>
+        </div>-->
+        @*<img src="~/Images/Logos.png" />*@
+
+    </nav>
+    @Html.Partial("_LoginPartial")
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - @DbRes.T("ManualsCopyWrite", "Resource") </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <!--DropZone JS-->
+    @Scripts.Render("~/bundles/dropzonejs") <!--DropZone JS-->
+    @Scripts.Render("~/bundles/dropzonejs")
+
+    
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    @RenderSection("scripts", required: false)
+<script>
+    
+
+        $(document).ready(function () {
+            $('#manage').DataTable();
+            if ($('.machines').hasClass('masterSelected')) {
+                //need to scroll
+                //$('html, body').animate({
+                //    scrollTop: $("#models").offset().top
+                //}, 0);
+            }
+
+           
+        });
+        @*$.when($.ready).then(function () {
+            var id = "@ViewBag.modeltypeid";
+            //alert(id);
+            if (id != "") {
+                alert("[data-value=" + id + "]");
+                $("machines").find("[data-value=" + id + "]").addClass("linkSelected");
+            }
+
+        });*@
+        function filter(element) {
+            var value = $(element).val();
+
+            $("#modelList > li").each(function () {
+                if ($(this).text().toLowerCase().search(value) > -1) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+            });
+        }
+        function setPDF(id, name, master) {
+
+            var machine = name.split(" - ")[0];
+            var xhr = new XMLHttpRequest();
+            //var pdfLink = "Manuals/RetrievePDF/" + id;
+            var pdfLink = "/Manuals/RetrievePDF/" + id;
+            var opentext = "@DbRes.T("ManualsOpen", "Resource")";
+            xhr.open("GET", pdfLink);
+            xhr.responseType = "blob";
+            xhr.onload = response;
+            xhr.send();
+            //need to scroll
+            //$('html, body').animate({
+            //    scrollTop: $("#models").offset().top
+            //}, 0);
+            function response(e) {
+                $('#machineImage').css("display", "block");
+                //$('#machineDetails').text("interesting snippet about " + machine + " goes here");
+                $('#machineDetails').text(machine);
+                $('#machineImage').attr("src", "Images/" + master + ".jpg");
+
+
+            }
+            $('#pdfLink').attr('href', pdfLink).text(name + ' - ' + opentext );
+            $('#pdfImageLink').attr('href', pdfLink);
+        }
+
+        $(".machines")
+            .click(function () {
+                var str = $(this).text()
+                var id = $(this).attr("data-value");
+                $("#modeltypeId").val(id);
+                //$(this).addClass("linkSelected");
+                //$("machines").find("[data-value='" + id + "']").addClass("linkSelected");
+
+                $("#manualsForm").submit();
+                //need to scroll
+                //$('html, body').animate({
+                //    scrollTop: $("#models").offset().top
+                //}, 2000);
+
+            });
+
+
+
+
+</script>
+</body>
+</html>

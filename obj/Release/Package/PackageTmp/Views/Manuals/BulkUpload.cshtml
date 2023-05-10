@@ -1,0 +1,26 @@
+﻿@model WebManuals.MainViewModel
+@{var listdata = ViewBag.Modeltypes as IEnumerable<WebManuals.Models.modeltypes>;}
+<div style="padding-top:5px;"><h4><u>Upload Multiple Manuals</u></h4></div>
+<div>
+    @using (Html.BeginForm("BulkUpload", "Manuals", FormMethod.Post))
+    {
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            
+            @*<input type="file" name="folder" id="FilePath" class="ms-btn-default" />*@
+            <input type="text" name="path" id="path" class="ms-btn-default" data-multiple-caption="{count} files selected" multiple />
+            <div class="btn-group" role="group" aria-label="Second group">
+                <button type="submit" name="multiple" class="ms-btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Bulk Import</button>
+            </div>
+            uploading files from: @ViewBag.path
+        </div>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Manuals.manual_modeltypeid, "manual_modeltypeid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("bulk_modeltypeselector", new SelectList(listdata, "modeltypeid", "modeltype_name"), "Select Model Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Manuals.manual_modeltypeid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+</div>
+

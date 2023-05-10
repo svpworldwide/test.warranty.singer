@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webmanualsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ipinfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ip" Type="nchar" MaxLength="15" />
+    <Property Name="type" Type="nchar" MaxLength="4" />
+    <Property Name="continent_code" Type="nchar" MaxLength="2" />
+    <Property Name="continent_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="country_code" Type="nchar" MaxLength="2" />
+    <Property Name="country_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="region_code" Type="nchar" MaxLength="50" />
+    <Property Name="region_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="city" Type="nvarchar" MaxLength="100" />
+    <Property Name="latitude" Type="float" />
+    <Property Name="longitude" Type="float" />
+    <Property Name="DateInserted" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="languages">
+    <Key>
+      <PropertyRef Name="languageid" />
+    </Key>
+    <Property Name="languageid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="language_name" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="manual_groups">
+    <Key>
+      <PropertyRef Name="manual_groupid" />
+    </Key>
+    <Property Name="manual_groupid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="languageid" Type="int" />
+    <Property Name="modeltypeid" Type="int" />
+    <Property Name="manualid" Type="int" />
+    <Property Name="manual_group_name" Type="varchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="manuals">
+    <Key>
+      <PropertyRef Name="manualid" />
+    </Key>
+    <Property Name="manualid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="manual_name" Type="varchar" MaxLength="128" />
+    <Property Name="manual_languageid" Type="int" />
+    <Property Name="manual_modeltypeid" Type="int" />
+    <Property Name="manual_url" Type="varchar" MaxLength="45" />
+    <Property Name="manual_content" Type="varbinary(max)" />
+    <Property Name="manual_master_model" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="modeltypes">
+    <Key>
+      <PropertyRef Name="modeltypeid" />
+    </Key>
+    <Property Name="modeltypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modeltype_name" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'webmanuals.dbo.revisions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="revisions">
+    <Key>
+      <PropertyRef Name="revisionid" />
+    </Key>
+    <Property Name="revisionid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="revision_date" Type="timestamp" StoreGeneratedPattern="Computed" />
+    <Property Name="manualid" Type="int" />
+    <Property Name="digitalid" Type="int" />
+    <Property Name="active" Type="bit" />
+  </EntityType>
+  <Association Name="FK_manual_groups_languages">
+    <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+    <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_groups_manuals">
+    <End Role="manuals" Type="Self.manuals" Multiplicity="0..1" />
+    <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manuals">
+        <PropertyRef Name="manualid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="manualid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_groups_modeltypes">
+    <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+    <End Role="manual_groups" Type="Self.manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_languageid">
+    <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_modeltypeid">
+    <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="webmanualsModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ipinfo" EntityType="Self.ipinfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="languages" EntityType="Self.languages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manual_groups" EntityType="Self.manual_groups" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manuals" EntityType="Self.manuals" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="modeltypes" EntityType="Self.modeltypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="revisions" EntityType="Self.revisions" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [revisions].[revisionid] AS [revisionid], 
+    [revisions].[revision_date] AS [revision_date], 
+    [revisions].[manualid] AS [manualid], 
+    [revisions].[digitalid] AS [digitalid], 
+    [revisions].[active] AS [active]
+    FROM [dbo].[revisions] AS [revisions]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_manual_groups_languages" Association="Self.FK_manual_groups_languages">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_groups_manuals" Association="Self.FK_manual_groups_manuals">
+      <End Role="manuals" EntitySet="manuals" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_groups_modeltypes" Association="Self.FK_manual_groups_modeltypes">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_languageid" Association="Self.FK_manual_languageid">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_modeltypeid" Association="Self.FK_manual_modeltypeid">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webmanualsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="languages">
+    <Key>
+      <PropertyRef Name="languageid" />
+    </Key>
+    <Property Name="languageid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="language_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manuals" Relationship="Self.manual_languageid" FromRole="languages" ToRole="manuals" />
+    <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_languages" FromRole="languages" ToRole="manual_groups" />
+  </EntityType>
+  <EntityType Name="manuals">
+    <Key>
+      <PropertyRef Name="manualid" />
+    </Key>
+    <Property Name="manualid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="manual_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="manual_languageid" Type="Int32" />
+    <Property Name="manual_modeltypeid" Type="Int32" />
+    <Property Name="manual_url" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="manual_content" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="languages" Relationship="Self.manual_languageid" FromRole="manuals" ToRole="languages" />
+    <NavigationProperty Name="modeltypes" Relationship="Self.manual_modeltypeid" FromRole="manuals" ToRole="modeltypes" />
+    <Property Name="manual_master_model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_manuals" FromRole="manuals" ToRole="manual_groups" />
+  </EntityType>
+  <EntityType Name="modeltypes">
+    <Key>
+      <PropertyRef Name="modeltypeid" />
+    </Key>
+    <Property Name="modeltypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modeltype_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manuals" Relationship="Self.manual_modeltypeid" FromRole="modeltypes" ToRole="manuals" />
+    <NavigationProperty Name="manual_groups" Relationship="webmanualsModel.FK_manual_groups_modeltypes" FromRole="modeltypes" ToRole="manual_groups" />
+  </EntityType>
+  <Association Name="manual_languageid">
+    <End Role="languages" Type="Self.languages" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="manual_modeltypeid">
+    <End Role="modeltypes" Type="Self.modeltypes" Multiplicity="0..1" />
+    <End Role="manuals" Type="Self.manuals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manuals">
+        <PropertyRef Name="manual_modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="webmanualsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="languages" EntityType="Self.languages" />
+    <EntitySet Name="manuals" EntityType="Self.manuals" />
+    <EntitySet Name="modeltypes" EntityType="Self.modeltypes" />
+    <AssociationSet Name="manual_languageid" Association="Self.manual_languageid">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+    <AssociationSet Name="manual_modeltypeid" Association="Self.manual_modeltypeid">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manuals" EntitySet="manuals" />
+    </AssociationSet>
+    <EntitySet Name="C__MigrationHistory" EntityType="webmanualsModel.C__MigrationHistory" />
+    <EntitySet Name="manual_groups" EntityType="webmanualsModel.manual_groups" />
+    <EntitySet Name="revisions" EntityType="webmanualsModel.revisions" />
+    <EntitySet Name="ipinfo" EntityType="webmanualsModel.ipinfo" />
+    <AssociationSet Name="FK_manual_groups_manuals" Association="webmanualsModel.FK_manual_groups_manuals">
+      <End Role="manuals" EntitySet="manuals" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_groups_languages" Association="webmanualsModel.FK_manual_groups_languages">
+      <End Role="languages" EntitySet="languages" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_manual_groups_modeltypes" Association="webmanualsModel.FK_manual_groups_modeltypes">
+      <End Role="modeltypes" EntitySet="modeltypes" />
+      <End Role="manual_groups" EntitySet="manual_groups" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="manual_groups">
+    <Key>
+      <PropertyRef Name="manual_groupid" />
+    </Key>
+    <Property Name="manual_groupid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="languageid" Type="Int32" />
+    <Property Name="modeltypeid" Type="Int32" />
+    <Property Name="manualid" Type="Int32" />
+    <Property Name="manual_group_name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="manuals" Relationship="webmanualsModel.FK_manual_groups_manuals" FromRole="manual_groups" ToRole="manuals" />
+    <NavigationProperty Name="languages" Relationship="webmanualsModel.FK_manual_groups_languages" FromRole="manual_groups" ToRole="languages" />
+    <NavigationProperty Name="modeltypes" Relationship="webmanualsModel.FK_manual_groups_modeltypes" FromRole="manual_groups" ToRole="modeltypes" />
+  </EntityType>
+  <EntityType Name="revisions">
+    <Key>
+      <PropertyRef Name="revisionid" />
+    </Key>
+    <Property Name="revisionid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="revision_date" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="manualid" Type="Int32" />
+    <Property Name="digitalid" Type="Int32" />
+    <Property Name="active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ipinfo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ip" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+    <Property Name="type" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+    <Property Name="continent_code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+    <Property Name="continent_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="country_code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+    <Property Name="country_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="region_code" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="region_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="latitude" Type="Double" />
+    <Property Name="longitude" Type="Double" />
+    <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <Association Name="FK_manual_groups_manuals">
+    <End Type="webmanualsModel.manuals" Role="manuals" Multiplicity="0..1" />
+    <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manuals">
+        <PropertyRef Name="manualid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="manualid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_groups_languages">
+    <End Type="webmanualsModel.languages" Role="languages" Multiplicity="0..1" />
+    <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="languages">
+        <PropertyRef Name="languageid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="languageid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_manual_groups_modeltypes">
+    <End Type="webmanualsModel.modeltypes" Role="modeltypes" Multiplicity="0..1" />
+    <End Type="webmanualsModel.manual_groups" Role="manual_groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modeltypes">
+        <PropertyRef Name="modeltypeid" />
+      </Principal>
+      <Dependent Role="manual_groups">
+        <PropertyRef Name="modeltypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

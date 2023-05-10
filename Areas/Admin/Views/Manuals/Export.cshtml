@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Export";
+
+}
+@{
+    var msg = ViewBag.Message;
+
+}
+<h2>Export</h2>
+@*@Html.ActionLink("Export", "Export", new { id = 1 })*@
+<div>@msg</div>
+@using (Html.BeginForm("Export", "Manuals", FormMethod.Post, new { id = 1 }))
+{
+    <button type="submit">Export</button>
+    
+}
