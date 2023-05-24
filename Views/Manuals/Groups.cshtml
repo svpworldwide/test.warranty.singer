@@ -53,32 +53,32 @@
                     <!--1-English,2-French,3-Czech,4-Danish,5-German,6-Spanish,7-Finnish,8-Italian,9-Dutch,10-Norwegian,11-Swedish-->
 
                     <div class="dropdown-menu ml-1">
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/18">Arabic</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/19">Chinese</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/3">Czech</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/4">Danish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/9">Dutch</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/1">English</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/7">Finnish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/2">French</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/5">German</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/23">Greek</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/24">Hebrew</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/16">Hungarian</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/20">Indonesian</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/8">Italian</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/21">Korean</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/17">Polish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/12">Portuguese</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/10">Norwegian</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/13">Russian</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/6">Spanish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/11">Swedish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/15">Slovenian</a>
-						<a class="nav-link" href="/Home/ChangeCurrentCulture/26">Taiwanese</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/22">Thai</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/14">Turkish</a>
-                        <a class="nav-link" href="/Home/ChangeCurrentCulture/25">Vietnamese</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/18">Arabic</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/19">Chinese</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/3">Czech</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/4">Danish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/9">Dutch</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/1">English</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/7">Finnish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/2">French</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/5">German</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/23">Greek</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/24">Hebrew</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/16">Hungarian</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/20">Indonesian</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/8">Italian</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/21">Korean</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/17">Polish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/12">Portuguese</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/10">Norwegian</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/13">Russian</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/6">Spanish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/11">Swedish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/15">Slovenian</a>
+						<a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/26">Taiwanese</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/22">Thai</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/14">Turkish</a>
+                        <a class="nav-link" rel="nofollow" href="/Home/ChangeCurrentCulture/25">Vietnamese</a>
 
                     </div>
                 </div>
@@ -100,7 +100,7 @@
 
             <h5>@DbRes.T("ManualsSelectHeader", "Resource")</h5>
             <small>@DbRes.T("ManualsSelectDesc", "Resource")@*Use the filter above to narrow selections*@</small><!--add to localization-->
-            <br /><a href="#" target="blank" id="pdfLink"></a><!--Todo: move to css-->
+            <br /><a rel="nofollow" href="#" target="blank" id="pdfLink"></a><!--Todo: move to css-->
 
         </div>
         <div class="col-md-8 manual-detail">
@@ -128,7 +128,7 @@
                                 @foreach (var type in Model.MasterTypes)
                                 {
                                     <li>
-                                        <a href='/Manuals/RetrievePDF/@type.Manualid' target="_blank">@type.Manual_master_model@*@Html.Action("RetrievePDFName", new { id = type.Manualid })*@</a>
+                                        <a rel="nofollow" href='/Manuals/RetrievePDF/@type.Manualid' target="_blank">@type.Manual_master_model@*@Html.Action("RetrievePDFName", new { id = type.Manualid })*@</a>
                                      
                                     </li>
 
@@ -141,19 +141,19 @@
                
                 <div class="col-8">
                     <div class="row">
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "1") {<text> masterSelected</text> }" data-value="1"><img class="img-fluid svp-img-size" id="mechanicalImage" src="~/Images/Mechanical.jpg" /><p>@DbRes.T("ManualsTypeMechanical", "Resource")</p></a></div>
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "2") {<text> masterSelected</text> }" data-value="2"><img class="img-fluid svp-img-size" id="computerizedImage" src="~/Images/Computerized.jpg" /><p>@DbRes.T("ManualsTypeComputerized", "Resource")</p></a></div>
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "4") {<text> masterSelected</text> }" data-value="4"><img class="img-fluid svp-img-size" id="embroideryImage" src="~/Images/Embroidery.jpg" /><p>@DbRes.T("ManualsTypeEmbroidery", "Resource")</p></a></div>
-                        @*<div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "3") {<text> masterSelected</text> }" data-value="3"><img class="img-fluid svp-img-size" id="heavydutyImage" src="~/Images/Heavy_Duty.jpg" /><p>@DbRes.T("ManualsTypeHeavyDuty", "Resource")</p></a></div>*@<!--remove-->
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "1") {<text> masterSelected</text> }" data-value="1"><img class="img-fluid svp-img-size" id="mechanicalImage" src="~/Images/Mechanical.jpg" /><p>@DbRes.T("ManualsTypeMechanical", "Resource")</p></a></div>
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "2") {<text> masterSelected</text> }" data-value="2"><img class="img-fluid svp-img-size" id="computerizedImage" src="~/Images/Computerized.jpg" /><p>@DbRes.T("ManualsTypeComputerized", "Resource")</p></a></div>
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "4") {<text> masterSelected</text> }" data-value="4"><img class="img-fluid svp-img-size" id="embroideryImage" src="~/Images/Embroidery.jpg" /><p>@DbRes.T("ManualsTypeEmbroidery", "Resource")</p></a></div>
+                        @*<div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "3") {<text> masterSelected</text> }" data-value="3"><img class="img-fluid svp-img-size" id="heavydutyImage" src="~/Images/Heavy_Duty.jpg" /><p>@DbRes.T("ManualsTypeHeavyDuty", "Resource")</p></a></div>*@<!--remove-->
                     </div>
                     <div class="row">
-                        @*<div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "5") {<text> masterSelected</text> }" data-value="5"><img class="img-fluid svp-img-size" id="quiltingImage" src="~/Images/Quilting.jpg" /><p>@DbRes.T("ManualsTypeQuilting", "Resource")</p></a></div>*@<!--remove-->
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "6") {<text> masterSelected</text> }" data-value="6"><img class="img-fluid svp-img-size" id="sergersImage" src="~/Images/Overlock.jpg" /><p>@DbRes.T("ManualsTypeSergers", "Resource")</p></a></div>
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "7") {<text> masterSelected</text> }" data-value="7"><img class="img-fluid svp-img-size" id="indusrialImage" src="~/Images/Industrial.jpg" /><p>@DbRes.T("ManualsTypeIndustrial", "Resource")</p></a></div>
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "8") {<text> masterSelected</text> }" data-value="8"><img class="img-fluid svp-img-size" id="ironsImage" src="~/Images/Irons.jpg" /><p>@DbRes.T("ManualsTypeIrons", "Resource")</p></a></div>
+                        @*<div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "5") {<text> masterSelected</text> }" data-value="5"><img class="img-fluid svp-img-size" id="quiltingImage" src="~/Images/Quilting.jpg" /><p>@DbRes.T("ManualsTypeQuilting", "Resource")</p></a></div>*@<!--remove-->
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "6") {<text> masterSelected</text> }" data-value="6"><img class="img-fluid svp-img-size" id="sergersImage" src="~/Images/Overlock.jpg" /><p>@DbRes.T("ManualsTypeSergers", "Resource")</p></a></div>
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "7") {<text> masterSelected</text> }" data-value="7"><img class="img-fluid svp-img-size" id="indusrialImage" src="~/Images/Industrial.jpg" /><p>@DbRes.T("ManualsTypeIndustrial", "Resource")</p></a></div>
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "8") {<text> masterSelected</text> }" data-value="8"><img class="img-fluid svp-img-size" id="ironsImage" src="~/Images/Irons.jpg" /><p>@DbRes.T("ManualsTypeIrons", "Resource")</p></a></div>
                     </div>
                     <div class="row">
-                        <div class="col-4"><a href="#" class="machines nav-link @if (ViewBag.modeltypeid == "9") {<text> masterSelected</text> }" data-value="9"><img class="img-fluid svp-img-size" id="notionsImage" src="~/Images/Notions.jpg" /><p>@DbRes.T("ManualsTypeNotions", "Resource")</p></a></div>
+                        <div class="col-4"><a rel="nofollow" href="#" class="machines nav-link @if (ViewBag.modeltypeid == "9") {<text> masterSelected</text> }" data-value="9"><img class="img-fluid svp-img-size" id="notionsImage" src="~/Images/Notions.jpg" /><p>@DbRes.T("ManualsTypeNotions", "Resource")</p></a></div>
                     </div>
                 </div>
             </div>
