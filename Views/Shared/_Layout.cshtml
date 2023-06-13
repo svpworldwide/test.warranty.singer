@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="~/images/SingerLogo.bmp" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     <!--DropZone CSS-->
@@ -11,7 +14,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-    @using Westwind.Globalization    
+    @using Westwind.Globalization
 </head>
 <body>
     @using System.Globalization
@@ -91,24 +94,26 @@
     @Scripts.Render("~/bundles/dropzonejs") <!--DropZone JS-->
     @Scripts.Render("~/bundles/dropzonejs")
 
-    
+
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     @RenderSection("scripts", required: false)
-<script>
     
 
-        $(document).ready(function () {
-            $('#manage').DataTable();
-            if ($('.machines').hasClass('masterSelected')) {
-                //need to scroll
-                //$('html, body').animate({
-                //    scrollTop: $("#models").offset().top
-                //}, 0);
-            }
+   
 
-           
-        });
-        @*$.when($.ready).then(function () {
+    <script>
+    $(document).ready(function () {
+    $('#manage').DataTable();
+    if ($('.machines').hasClass('masterSelected')) {
+    //need to scroll
+    //$('html, body').animate({
+    //    scrollTop: $("#models").offset().top
+    //}, 0);
+    }
+
+
+    });
+    @*$.when($.ready).then(function () {
             var id = "@ViewBag.modeltypeid";
             //alert(id);
             if (id != "") {
@@ -117,64 +122,64 @@
             }
 
         });*@
-        function filter(element) {
-            var value = $(element).val();
+    function filter(element) {
+    var value = $(element).val();
 
-            $("#modelList > li").each(function () {
-                if ($(this).text().toLowerCase().search(value) > -1) {
-                    $(this).show();
-                }
-                else {
-                    $(this).hide();
-                }
-            });
-        }
-        function setPDF(id, name, master) {
+    $("#modelList > li").each(function () {
+    if ($(this).text().toLowerCase().search(value) > -1) {
+    $(this).show();
+    }
+    else {
+    $(this).hide();
+    }
+    });
+    }
+    function setPDF(id, name, master) {
 
-            var machine = name.split(" - ")[0];
-            var xhr = new XMLHttpRequest();
-            //var pdfLink = "Manuals/RetrievePDF/" + id;
-            var pdfLink = "/Manuals/RetrievePDF/" + id;
-            var opentext = "@DbRes.T("ManualsOpen", "Resource")";
-            xhr.open("GET", pdfLink);
-            xhr.responseType = "blob";
-            xhr.onload = response;
-            xhr.send();
-            //need to scroll
-            //$('html, body').animate({
-            //    scrollTop: $("#models").offset().top
-            //}, 0);
-            function response(e) {
-                $('#machineImage').css("display", "block");
-                //$('#machineDetails').text("interesting snippet about " + machine + " goes here");
-                $('#machineDetails').text(machine);
-                $('#machineImage').attr("src", "Images/" + master + ".jpg");
-
-
-            }
-            $('#pdfLink').attr('href', pdfLink).text(name + ' - ' + opentext );
-            $('#pdfImageLink').attr('href', pdfLink);
-        }
-
-        $(".machines")
-            .click(function () {
-                var str = $(this).text()
-                var id = $(this).attr("data-value");
-                $("#modeltypeId").val(id);
-                //$(this).addClass("linkSelected");
-                //$("machines").find("[data-value='" + id + "']").addClass("linkSelected");
-
-                $("#manualsForm").submit();
-                //need to scroll
-                //$('html, body').animate({
-                //    scrollTop: $("#models").offset().top
-                //}, 2000);
-
-            });
+    var machine = name.split(" - ")[0];
+    var xhr = new XMLHttpRequest();
+    //var pdfLink = "Manuals/RetrievePDF/" + id;
+    var pdfLink = "/Manuals/RetrievePDF/" + id;
+    var opentext = "@DbRes.T("ManualsOpen", "Resource")";
+    xhr.open("GET", pdfLink);
+    xhr.responseType = "blob";
+    xhr.onload = response;
+    xhr.send();
+    //need to scroll
+    //$('html, body').animate({
+    //    scrollTop: $("#models").offset().top
+    //}, 0);
+    function response(e) {
+    $('#machineImage').css("display", "block");
+    //$('#machineDetails').text("interesting snippet about " + machine + " goes here");
+    $('#machineDetails').text(machine);
+    $('#machineImage').attr("src", "Images/" + master + ".jpg");
 
 
+    }
+    $('#pdfLink').attr('href', pdfLink).text(name + ' - ' + opentext );
+    $('#pdfImageLink').attr('href', pdfLink);
+    }
+
+    $(".machines")
+    .click(function () {
+    var str = $(this).text()
+    var id = $(this).attr("data-value");
+    $("#modeltypeId").val(id);
+    //$(this).addClass("linkSelected");
+    //$("machines").find("[data-value='" + id + "']").addClass("linkSelected");
+
+    $("#manualsForm").submit();
+    //need to scroll
+    //$('html, body').animate({
+    //    scrollTop: $("#models").offset().top
+    //}, 2000);
+
+    });
 
 
-</script>
+
+
+    </script>
 </body>
 </html>

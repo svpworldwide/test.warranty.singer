@@ -354,3 +354,5 @@ C:\Bitbucket_repositories\WebManuals\WebManuals\bin\Westwind.Web.dll
 C:\Bitbucket_repositories\WebManuals\WebManuals\bin\System.ValueTuple.xml
 C:\Bitbucket_repositories\WebManuals\WebManuals\bin\Westwind.Globalization.Web.xml
 C:\Bitbucket_repositories\WebManuals\WebManuals\bin\Westwind.Web.xml
+C:\Users\chris.waters\Desktop\SVP Sites\manuals.singer.com\obj\Debug\WebManuals.dll
+C:\Users\chris.waters\Desktop\SVP Sites\manuals.singer.com\obj\Debug\WebManuals.pdb
